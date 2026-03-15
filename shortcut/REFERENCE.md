@@ -26,7 +26,7 @@ Description format:
 ## Tracking events                       (include when analytics apply)
 - [Analytics events to fire, AB test targeting]
 
-## Design docs                           (always include this heading - i'll remove it if not needed)
+## Design docs                           (include when designs exist)
 - [Link to Figma design]
 ```
 
