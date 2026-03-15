@@ -1,45 +1,51 @@
 ---
 name: write-a-skill
-description: Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill.
+description: Creates new Claude Code skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, build, or improve a skill. Also triggers when discussing skill architecture, frontmatter options, or description optimization.
+user-invocable: true
 ---
 
 # Writing Skills
 
+Before drafting, read [REFERENCE.md](REFERENCE.md) for the complete frontmatter reference, invocation control table, and string substitutions. For the latest official guidance, see https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+
 ## Process
 
-1. **Gather requirements** - ask user about:
+1. **Gather requirements** — ask user about:
    - What task/domain does the skill cover?
    - What specific use cases should it handle?
    - Does it need executable scripts or just instructions?
    - Any reference materials to include?
 
-2. **Draft the skill** - create:
-   - SKILL.md with concise instructions
-   - Additional reference files if content exceeds 500 lines
+2. **Draft the skill** — create:
+   - SKILL.md with concise instructions (under 500 lines)
+   - Additional reference files if approaching that limit
    - Utility scripts if deterministic operations needed
 
-3. **Review with user** - present draft and ask:
+3. **Review with user** — present draft and iterate:
    - Does this cover your use cases?
    - Anything missing or unclear?
-   - Should any section be more/less detailed?
+   - Test with the models you plan to use (Haiku needs more guidance, Opus needs less)
 
 ## Skill Structure
 
 ```
 skill-name/
 ├── SKILL.md           # Main instructions (required)
-├── REFERENCE.md       # Detailed docs (if needed)
-├── EXAMPLES.md        # Usage examples (if needed)
-└── scripts/           # Utility scripts (if needed)
-    └── helper.js
+├── reference.md       # Detailed docs (loaded on demand)
+├── examples.md        # Usage examples (loaded on demand)
+└── scripts/           # Utility scripts (executed, not loaded)
+    └── helper.py
 ```
+
+Keep references one level deep from SKILL.md — avoid chains where reference A links to reference B links to reference C. For reference files over 100 lines, add a table of contents at the top.
 
 ## SKILL.md Template
 
 ```md
 ---
 name: skill-name
-description: Brief description of capability. Use when [specific triggers].
+description: Does X and Y for Z context. Use when user mentions A, B, or C, even if they don't explicitly ask for this skill.
+argument-hint: "[required-arg] [optional-arg]"
 ---
 
 # Skill Name
@@ -50,33 +56,39 @@ description: Brief description of capability. Use when [specific triggers].
 
 ## Workflows
 
-[Step-by-step processes with checklists for complex tasks]
+[Step-by-step processes for complex tasks]
 
 ## Advanced features
 
-[Link to separate files: See [REFERENCE.md](REFERENCE.md)]
+See [reference.md](reference.md) for detailed API docs.
 ```
 
-## Description Requirements
+See [REFERENCE.md](REFERENCE.md) § "Frontmatter fields" for all available options including `disable-model-invocation`, `user-invocable`, `allowed-tools`, `context`, `agent`, and `model`.
 
-The description is **the only thing your agent sees** when deciding which skill to load. It's surfaced in the system prompt alongside all other installed skills. Your agent reads these descriptions and picks the relevant skill based on the user's request.
+## Naming Conventions
 
-**Goal**: Give your agent just enough info to know:
+- Lowercase letters, numbers, and hyphens only (max 64 chars)
+- Cannot contain "anthropic" or "claude"
+- Prefer gerund form: `processing-pdfs`, `managing-databases`, `testing-code`
+- Avoid vague names: `helper`, `utils`, `tools`
 
-1. What capability this skill provides
-2. When/why to trigger it (specific keywords, contexts, file types)
+## Writing Descriptions
+
+The description is the **only thing Claude sees** when deciding which skill to load. It's surfaced in the system prompt alongside all other installed skills.
+
+Claude tends to **undertrigger** skills — to not use them when they'd be useful. Combat this by making descriptions slightly "pushy": include adjacent keywords and contexts, not just exact matches.
 
 **Format**:
 
-- Max 1024 chars
-- Write in third person
+- Max 1024 chars, write in third person
 - First sentence: what it does
 - Second sentence: "Use when [specific triggers]"
+- Include both obvious and non-obvious trigger contexts
 
 **Good example**:
 
 ```
-Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when user mentions PDFs, forms, or document extraction.
+Extracts text and tables from PDF files, fills forms, merges documents. Use when working with PDF files or when user mentions PDFs, forms, document extraction, or scanned documents.
 ```
 
 **Bad example**:
@@ -85,15 +97,34 @@ Extract text and tables from PDF files, fill forms, merge documents. Use when wo
 Helps with documents.
 ```
 
-The bad example gives your agent no way to distinguish this from other document skills.
+## Degrees of Freedom
+
+Match instruction specificity to how fragile the task is:
+
+- **High freedom** (text guidelines): multiple valid approaches, context-dependent decisions — e.g. code review criteria
+- **Medium freedom** (templates with parameters): a preferred pattern exists but variation is acceptable — e.g. report generation
+- **Low freedom** (exact scripts): operations are fragile, consistency is critical — e.g. database migrations, deployments
+
+## Arguments and Dynamic Context
+
+Skills support string substitutions — see [REFERENCE.md](REFERENCE.md) § "String substitutions" for `$ARGUMENTS`, `$0`/`$1`, `${CLAUDE_SKILL_DIR}`, and `${CLAUDE_SESSION_ID}`.
+
+For injecting live data (git diffs, API responses) before Claude sees the prompt, use the `` !`command` `` syntax:
+
+```md
+## Current changes
+- Diff: !`git diff --staged`
+```
+
+The command runs first and its output replaces the placeholder.
 
 ## When to Add Scripts
 
 Add utility scripts when:
 
 - Operation is deterministic (validation, formatting)
-- Same code would be generated repeatedly
-- Errors need explicit handling
+- Same code would be generated repeatedly across invocations
+- Errors need explicit handling (scripts should solve, not punt to Claude)
 
 Scripts save tokens and improve reliability vs generated code.
 
@@ -101,17 +132,20 @@ Scripts save tokens and improve reliability vs generated code.
 
 Split into separate files when:
 
-- SKILL.md exceeds 100 lines
+- SKILL.md approaches 500 lines
 - Content has distinct domains (finance vs sales schemas)
-- Advanced features are rarely needed
+- Advanced features are rarely needed (progressive disclosure)
 
 ## Review Checklist
 
 After drafting, verify:
 
-- [ ] Description includes triggers ("Use when...")
-- [ ] SKILL.md under 100 lines
-- [ ] No time-sensitive info
-- [ ] Consistent terminology
-- [ ] Concrete examples included
-- [ ] References one level deep
+- Description includes triggers ("Use when...") and is slightly pushy
+- Description is in third person
+- SKILL.md under 500 lines
+- No time-sensitive info
+- Consistent terminology throughout
+- Concrete examples included
+- References one level deep from SKILL.md
+- Tested with intended model tier (Haiku/Sonnet/Opus)
+- Naming uses lowercase-hyphenated gerund form
