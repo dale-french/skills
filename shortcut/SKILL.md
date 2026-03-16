@@ -31,12 +31,12 @@ https://github.com/useshortcut/mcp-server-shortcut/blob/main/docs/local-server.m
 
 Parse `$ARGUMENTS` and route to the matching action:
 
-| Intent       | Signal words                             | Action                                                                                |
-| ------------ | ---------------------------------------- | ------------------------------------------------------------------------------------- |
-| Create story | "create", "add", "new", "file", "report" | Infer type, apply template, `stories-create`. For bugs: set custom fields (see below) |
-| Create epic  | "epic"                                   | `epics-create`                                                                        |
-| View         | story ID, Shortcut URL, "show", "get"    | `stories-get-by-id`                                                                   |
-| Search       | "find", "search", "my stories", "list"   | `stories-search`                                                                      |
+| Intent       | Signal words                              | Action                                                                                |
+| ------------ | ----------------------------------------- | ------------------------------------------------------------------------------------- |
+| Create story | "create", "add", "new", "file", "report"  | Infer type, apply template, `stories-create`. For bugs: set custom fields (see below) |
+| Create epic  | "epic", "create epic", "new epic"         | Apply epic template, preview, `epics-create`. See [Epic creation](#epic-creation)     |
+| View         | story ID, Shortcut URL, "show", "get"     | `stories-get-by-id`                                                                   |
+| Search       | "find", "search", "my stories", "list"    | `stories-search`                                                                      |
 | Update       | "update", "set", "move", "change", "edit" | `stories-update` (by ID or search first)                                              |
 
 ## Type inference
@@ -70,6 +70,18 @@ Flow:
 2. Create the bug story via `stories-create`
 3. Call `stories-update` with the `custom_fields` array to set all five fields
 4. If unsure about a value, prefer the moderate/default option (Medium severity, Medium priority, Functional type, User Reported source, Unknown regression)
+
+## Epic creation
+
+1. Map the user's request to the epic template sections in REFERENCE.md
+2. Apply the template — populate sections with info the user gave, leave bracket placeholders for sections they didn't mention (don't omit them)
+3. If user provides a Notion roadmap link, place it at the top of the description. If not, ask for one — but it's not mandatory, so proceed without it if the user declines
+4. Preview: show epic name + full formatted description, ask for confirmation before creating
+5. Create via `epics-create` with name, description, and teamId (from CONFIG.md)
+6. If user provided schedule dates, follow up with `epics-update` to set deadline and/or planned_start_date
+7. Output clickable link: `https://app.shortcut.com/vio/epic/{epic_id}`
+
+Same [writing style](#writing-style) rules apply — title is the task, lead with why, criteria as assertions, no checkboxes.
 
 ## Defaults
 

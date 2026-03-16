@@ -3,6 +3,7 @@
 ## Contents
 
 - [Story templates](#story-templates) — Feature, Bug, Chore/Tech Debt, Experiment Cleanup
+- [Epic template](#epic-template) — Standard epic description format
 - [Bug custom fields](#bug-custom-fields) — Severity, Priority, Bug Type, Source, Regression
 - [MCP tools cheat sheet](#mcp-tools-cheat-sheet) — Stories, Epics, Other
 - [Formatting rules](#formatting-rules) — Checkboxes, link formats
@@ -102,6 +103,39 @@ Description format:
 - [auto-populated from codebase grep]
 ```
 
+## Epic template
+
+All sections stay in the template — populated with real content or left as bracket placeholders. Epics are planning docs; visible placeholders remind creators what still needs filling in. This is the opposite of story convention, where empty sections are omitted.
+
+Exceptions: Backlinks and Why/What can be omitted when covered by a parent Shortcut objective or linked Notion roadmap item.
+
+```
+## Backlinks
+- [Notion Roadmap item](link)
+- [Notion Project](link)
+
+## Why? and What?
+[Why this epic exists and what it delivers]
+
+## Approach
+[High-level technical or product approach — how will we get there?]
+
+## Acceptance criteria
+- [Testable assertions that define "done" for the epic]
+
+## Dependencies
+- [Other epics, teams, or external blockers]
+
+## Effort/Investment
+- [Estimated range with EUR, e.g. "Between 4 and 6 person-weeks, i.e. between 24,000 EUR and 36,000 EUR"]
+- [Development Effort Mapping](https://www.notion.so/viocom/Mapping-development-effort-to-EUR-2a14fa527de680bd927af0b88a5c449a?source=copy_link)
+
+## Log of changes
+| Date | Author | Change |
+|------|--------|--------|
+| [date] | [name] | Epic created |
+```
+
 ## Bug custom fields
 
 When creating bug stories, always set these five custom fields: **Severity**, **Priority**, **Bug Type**, **Source of Discovery**, **Regression**.
@@ -115,17 +149,20 @@ When creating bug stories, always set these five custom fields: **Severity**, **
 ### Judgement guidelines
 
 **Severity** — impact on users/business ("how bad is this?")
+
 - **Critical**: loss of bookings or crashes the app under common flows
 - **High**: could cause loss of bookings or crashes under less-common flows
 - **Medium**: unexpected/undesirable behavior, but doesn't disrupt core function
 - **Low**: no noticeable application breakdown
 
 **Priority** — urgency ("how soon must we fix it?"). Can differ from severity — e.g. high priority + low severity when blocking another team, or high severity + low priority for a critical bug behind a disabled toggle.
+
 - **High**: must go into the current sprint
 - **Medium**: should be prioritized for upcoming sprints
 - **Low**: can be fixed at a later date
 
 **Bug Type** — match to the affected area:
+
 - **User Interface (UI)**: layout, design, usability
 - **Performance**: slow response, memory leaks
 - **Security**: vulnerabilities, unauthorized access
@@ -134,12 +171,14 @@ When creating bug stories, always set these five custom fields: **Severity**, **
 - **Tracking**: analytics, attribution, event tracking
 
 **Source of Discovery** — infer from context:
+
 - **User Reported**: reported by user or support channel (default if unclear)
 - **Manual QA**: found during manual testing
 - **Automated Tests**: caught by CI/tests
 - **Monitoring / Alert**: flagged by monitoring or alerts
 
 **Regression** — was this working before?
+
 - **Yes**: introduced by a recent change
 - **No**: longstanding issue
 - **Unknown**: not sure (default if unclear)
@@ -158,9 +197,11 @@ When creating bug stories, always set these five custom fields: **Severity**, **
 
 ### Epics
 
-- `epics-create` - name (required), description
-- `epics-get-by-id` - epic_id
-- `epics-search` - query
+- `epics-create` - name (required), description, owner, teamId
+- `epics-get-by-id` - epicPublicId, full (default: false)
+- `epics-search` - query, name, state (unstarted/started/done), owner, team, objective, due, hasDeadline, hasLabel, hasOwner, isOverdue, created, updated, completed
+- `epics-update` - epicPublicId + name, description, deadline, planned_start_date, labels, epic_state_id, team_id, owner_ids, objective_ids, archived
+- `epics-delete` - epicPublicId (cannot be undone)
 
 ### Other
 
