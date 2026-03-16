@@ -25,6 +25,7 @@ https://github.com/useshortcut/mcp-server-shortcut/blob/main/docs/local-server.m
 /shortcut show story 12345
 /shortcut find stories about price freeze
 /shortcut move story 12345 to In Progress
+/shortcut start working on story 180175
 ```
 
 ## Intent routing
@@ -38,6 +39,7 @@ Parse `$ARGUMENTS` and route to the matching action:
 | View         | story ID, Shortcut URL, "show", "get"     | `stories-get-by-id`                                                                   |
 | Search       | "find", "search", "my stories", "list"    | `stories-search`                                                                      |
 | Update       | "update", "set", "move", "change", "edit" | `stories-update` (by ID or search first)                                              |
+| Start work   | "start", "work on", "begin", "pick up"    | Resolve story, preview, move to In Progress, checkout branch                          |
 
 ## Type inference
 
@@ -57,6 +59,24 @@ When the request mentions "cleanup" + an experiment/toggle ID:
 2. Search Shortcut for related stories about that experiment
 3. Apply the cleanup template from REFERENCE.md, auto-populating "Files to modify"
 4. Add labels: `search:cleanup`, `search:tech_debt`, `AI`
+
+## Start work
+
+When the user wants to begin working on a story:
+
+1. **Resolve**: Extract story ID from `$ARGUMENTS` (number or Shortcut URL). Call `stories-get-by-id` to get title, current state, and type.
+2. **Branch name**: Call `stories-get-branch-name` for the canonical branch name.
+3. **Preview**: Show the user:
+   - Story: `sc-{id}` — {title}
+   - State change: {current state} → In Progress (skip if already In Progress)
+   - Branch: `{branch_name}`
+4. **After user confirms**:
+   a. **Move to In Progress** — call `workflows-get-default` to find the "In Progress" state ID, then `stories-update` with `workflow_state_id`. Skip if already In Progress. (This also auto-assigns the current user.)
+   b. **Git checkout** — detect default branch, then:
+      - Already on the correct branch → no-op, inform user
+      - Branch exists locally → `git checkout {branch}`
+      - Branch exists on remote → `git fetch origin {branch} && git checkout {branch}`
+      - Branch does not exist → `git checkout -b {branch} origin/{default_branch}`
 
 ## Bug custom fields
 

@@ -194,6 +194,7 @@ When creating bug stories, always set these five custom fields: **Severity**, **
 - `stories-create-comment` - story_id, text
 - `stories-add-task` - story_id, description
 - `stories-assign-current-user` / `stories-unassign-current-user` - story_id
+- `stories-get-branch-name` - storyPublicId (number), returns canonical git branch name
 
 ### Epics
 
