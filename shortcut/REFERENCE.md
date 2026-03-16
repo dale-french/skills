@@ -1,5 +1,12 @@
 # Shortcut Reference
 
+## Contents
+
+- [Story templates](#story-templates) — Feature, Bug, Chore/Tech Debt, Experiment Cleanup
+- [Bug custom fields](#bug-custom-fields) — Severity, Priority, Bug Type, Source, Regression
+- [MCP tools cheat sheet](#mcp-tools-cheat-sheet) — Stories, Epics, Other
+- [Formatting rules](#formatting-rules) — Checkboxes, link formats
+
 ## Story templates
 
 All sections are optional — omit any section that would be empty or just restate the title. Only include sections with real content.
@@ -26,7 +33,7 @@ Description format:
 ## Tracking events                       (include when analytics apply)
 - [Analytics events to fire, AB test targeting]
 
-## Design docs                           (always include this heading - i'll remove it if not needed)
+## Design docs                           (include when designs exist)
 - [Link to Figma design]
 ```
 

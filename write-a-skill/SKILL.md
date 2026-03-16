@@ -1,45 +1,38 @@
 ---
 name: write-a-skill
-description: Create new agent skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, or build a new skill.
+description: Creates new Claude Code skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, build, or improve a skill. Also triggers when discussing skill architecture, frontmatter options, or description optimization.
+user-invocable: true
 ---
 
 # Writing Skills
 
+First, read the official authoring guide for the complete spec (frontmatter fields, string substitutions, invocation control, progressive disclosure, naming, and more): https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+
 ## Process
 
-1. **Gather requirements** - ask user about:
+1. **Gather requirements** — ask user about:
    - What task/domain does the skill cover?
    - What specific use cases should it handle?
    - Does it need executable scripts or just instructions?
    - Any reference materials to include?
 
-2. **Draft the skill** - create:
-   - SKILL.md with concise instructions
-   - Additional reference files if content exceeds 500 lines
+2. **Draft the skill** — create:
+   - SKILL.md with concise instructions (under 500 lines)
+   - Additional reference files if approaching that limit
    - Utility scripts if deterministic operations needed
 
-3. **Review with user** - present draft and ask:
+3. **Review with user** — present draft and iterate:
    - Does this cover your use cases?
    - Anything missing or unclear?
-   - Should any section be more/less detailed?
-
-## Skill Structure
-
-```
-skill-name/
-├── SKILL.md           # Main instructions (required)
-├── REFERENCE.md       # Detailed docs (if needed)
-├── EXAMPLES.md        # Usage examples (if needed)
-└── scripts/           # Utility scripts (if needed)
-    └── helper.js
-```
+   - Test with the models you plan to use (Haiku needs more guidance, Opus needs less)
 
 ## SKILL.md Template
 
 ```md
 ---
 name: skill-name
-description: Brief description of capability. Use when [specific triggers].
+description: Does X and Y for Z context. Use when user mentions A, B, or C, even if they don't explicitly ask for this skill.
+argument-hint: "[required-arg] [optional-arg]"
 ---
 
 # Skill Name
@@ -50,68 +43,39 @@ description: Brief description of capability. Use when [specific triggers].
 
 ## Workflows
 
-[Step-by-step processes with checklists for complex tasks]
+[Step-by-step processes for complex tasks]
 
 ## Advanced features
 
-[Link to separate files: See [REFERENCE.md](REFERENCE.md)]
+See [reference.md](reference.md) for detailed API docs.
 ```
 
-## Description Requirements
+## Writing Descriptions
 
-The description is **the only thing your agent sees** when deciding which skill to load. It's surfaced in the system prompt alongside all other installed skills. Your agent reads these descriptions and picks the relevant skill based on the user's request.
+The description is the **only thing Claude sees** when deciding which skill to load. Claude tends to **undertrigger** skills — to not use them when they'd be useful. Combat this by making descriptions slightly "pushy": include adjacent keywords and contexts, not just exact matches.
 
-**Goal**: Give your agent just enough info to know:
+**Good**: `Extracts text and tables from PDF files, fills forms, merges documents. Use when working with PDF files or when user mentions PDFs, forms, document extraction, or scanned documents.`
 
-1. What capability this skill provides
-2. When/why to trigger it (specific keywords, contexts, file types)
+**Bad**: `Helps with documents.`
 
-**Format**:
+## Skill Archetypes
 
-- Max 1024 chars
-- Write in third person
-- First sentence: what it does
-- Second sentence: "Use when [specific triggers]"
+Three patterns emerge in practice — choose the one that fits:
 
-**Good example**:
-
-```
-Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when user mentions PDFs, forms, or document extraction.
-```
-
-**Bad example**:
-
-```
-Helps with documents.
-```
-
-The bad example gives your agent no way to distinguish this from other document skills.
-
-## When to Add Scripts
-
-Add utility scripts when:
-
-- Operation is deterministic (validation, formatting)
-- Same code would be generated repeatedly
-- Errors need explicit handling
-
-Scripts save tokens and improve reliability vs generated code.
-
-## When to Split Files
-
-Split into separate files when:
-
-- SKILL.md exceeds 100 lines
-- Content has distinct domains (finance vs sales schemas)
-- Advanced features are rarely needed
+- **Reference skills** — pure knowledge, short body. Brand guidelines, API conventions, style guides. Claude applies them inline alongside conversation context.
+- **Workflow skills** — multi-phase processes with decision trees. Doc co-authoring, code review, deployment pipelines. Often use checklists for Claude to track progress.
+- **Dispatcher skills** — thin SKILL.md that routes to bundled resources based on what the user needs. e.g. an internal-comms skill pointing to `examples/newsletter.md`, `examples/status-report.md`, etc.
 
 ## Review Checklist
 
 After drafting, verify:
 
-- [ ] Description includes triggers ("Use when...")
-- [ ] SKILL.md under 100 lines
+- [ ] Description includes "Use when..." triggers and is slightly pushy
+- [ ] Description is in third person
+- [ ] SKILL.md under 500 lines
 - [ ] No time-sensitive info
-- [ ] Consistent terminology
+- [ ] Consistent terminology throughout
 - [ ] Concrete examples included
-- [ ] References one level deep
+- [ ] References one level deep from SKILL.md
+- [ ] Tested with intended model tier (Haiku/Sonnet/Opus)
+- [ ] Naming uses lowercase-hyphenated form (prefer gerunds)

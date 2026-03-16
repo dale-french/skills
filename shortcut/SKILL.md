@@ -24,6 +24,7 @@ https://github.com/useshortcut/mcp-server-shortcut/blob/main/docs/local-server.m
 /shortcut cleanup experiment search-widget-v2
 /shortcut show story 12345
 /shortcut find stories about price freeze
+/shortcut move story 12345 to In Progress
 ```
 
 ## Intent routing
@@ -36,6 +37,7 @@ Parse `$ARGUMENTS` and route to the matching action:
 | Create epic  | "epic"                                   | `epics-create`                                                                        |
 | View         | story ID, Shortcut URL, "show", "get"    | `stories-get-by-id`                                                                   |
 | Search       | "find", "search", "my stories", "list"   | `stories-search`                                                                      |
+| Update       | "update", "set", "move", "change", "edit" | `stories-update` (by ID or search first)                                              |
 
 ## Type inference
 
@@ -94,4 +96,4 @@ Use `team_id` for `group_id` param (never `mention_name`). Always output a click
 - No checkboxes in descriptions - use plain bullets only
 - If MCP tools are unavailable, show the Setup steps above and stop
 - Keep story titles concise (under 80 chars)
-- When creating stories, show the user a preview of title + type before calling the API
+- When creating stories, show the user a preview of title, type, and description before calling the API. For bugs, also preview the inferred custom field values (severity, priority, bug type, source, regression).
