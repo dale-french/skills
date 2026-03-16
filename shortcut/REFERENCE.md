@@ -29,7 +29,7 @@ Description format:
 - [Links to Figma, specs, Slack threads]
 
 ## Technical context                     (include when architecture is non-obvious)
-- [File paths and functions, not prose — e.g. `src/search/ResultsList.tsx`, `useTheme` hook]
+- [Existing file paths and functions only — e.g. `src/search/ResultsList.tsx`, `useTheme` hook. Do not suggest new files or functions to create; that's for the developer/agent to decide.]
 
 ## Tracking events                       (include when analytics apply)
 - [Analytics events to fire, AB test targeting]
@@ -107,6 +107,8 @@ Description format:
 
 All sections stay in the template — populated with real content or left as bracket placeholders. Epics are planning docs; visible placeholders remind creators what still needs filling in. This is the opposite of story convention, where empty sections are omitted.
 
+Do not add sections beyond what the template defines. Stick to exactly these headings.
+
 Exceptions: Backlinks and Why/What can be omitted when covered by a parent Shortcut objective or linked Notion roadmap item.
 
 ```
@@ -117,9 +119,6 @@ Exceptions: Backlinks and Why/What can be omitted when covered by a parent Short
 ## Why? and What?
 [Why this epic exists and what it delivers]
 
-## Approach
-[High-level technical or product approach — how will we get there?]
-
 ## Acceptance criteria
 - [Testable assertions that define "done" for the epic]
 
@@ -127,14 +126,17 @@ Exceptions: Backlinks and Why/What can be omitted when covered by a parent Short
 - [Other epics, teams, or external blockers]
 
 ## Effort/Investment
-- [Estimated range with EUR, e.g. "Between 4 and 6 person-weeks, i.e. between 24,000 EUR and 36,000 EUR"]
-- [Development Effort Mapping](https://www.notion.so/viocom/Mapping-development-effort-to-EUR-2a14fa527de680bd927af0b88a5c449a?source=copy_link)
+- [Estimated range with EUR, e.g. "Between 4 and 6 person-weeks, i.e. between 12,000 EUR and 18,000 EUR"]
 
 ## Log of changes
 | Date | Author | Change |
 |------|--------|--------|
 | [date] | [name] | Epic created |
 ```
+
+### Effort/Investment calculation reference
+
+When populating the Effort/Investment section, convert person-weeks to EUR using: **1 person-week ≈ 3,000 EUR**. Reference: [Mapping development effort to EUR](https://www.notion.so/viocom/Mapping-development-effort-to-EUR-2a14fa527de680bd927af0b88a5c449a). Do not include this link in the epic description.
 
 ## Bug custom fields
 

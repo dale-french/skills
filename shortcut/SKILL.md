@@ -120,7 +120,7 @@ Use `team_id` for `group_id` param (never `mention_name`). Always output a click
 - **Description is context, not a spec.** Only include sections that carry information the assignee doesn't already have. Omit any template section that would restate the title or contain placeholder text. Always start minimal — add sections only when they carry information the assignee doesn't already have.
 - **Quote, don't summarize.** When the user provides user feedback or error messages, quote them directly rather than paraphrasing.
 - **Criteria as assertions.** Write acceptance criteria as testable statements, not vague outcomes. "Search results page uses dark theme tokens when user preference is dark" not "dark mode works."
-- **Point to code, don't describe it.** In Technical context, prefer file paths (`src/search/api.ts`) over prose descriptions of architecture. Readers can click; agents can grep.
+- **Point to existing code, don't prescribe new code.** In Technical context, reference existing file paths (`src/search/api.ts`) as entry points. Never suggest new files or functions to create — that's for the developer or agent to decide. Readers can click; agents can grep.
 - **Write for two readers.** Stories are read by teammates and by agents building the feature. Prefer explicit scope, concrete file paths, and testable criteria over implied context.
 
 ## Rules
