@@ -107,26 +107,28 @@ Description format:
 
 All sections stay in the template — populated with real content or left as bracket placeholders. Epics are planning docs; visible placeholders remind creators what still needs filling in. This is the opposite of story convention, where empty sections are omitted.
 
-```
-[Notion Roadmap link — include only if user provides one]
+Exceptions: Backlinks and Why/What can be omitted when covered by a parent Shortcut objective or linked Notion roadmap item.
 
-## Why and What
-[1-2 sentences on why this epic exists and what it delivers]
+```
+## Backlinks
+- [Notion Roadmap item](link)
+- [Notion Project](link)
+
+## Why? and What?
+[Why this epic exists and what it delivers]
 
 ## Approach
 [High-level technical or product approach — how will we get there?]
 
 ## Acceptance criteria
-[Testable assertions that define "done" for the epic]
-
-## Milestones
-[Key checkpoints or deliverables, if epic spans more than 2 weeks]
-
-## Effort / Investment
-[Development Effort Mapping](https://www.notion.so/viocom/Mapping-development-effort-to-EUR-2a14fa527de680bd927af0b88a5c449a?source=copy_link)
+- [Testable assertions that define "done" for the epic]
 
 ## Dependencies
-[Other epics, teams, or external blockers]
+- [Other epics, teams, or external blockers]
+
+## Effort/Investment
+- [Estimated range with EUR, e.g. "Between 4 and 6 person-weeks, i.e. between 24,000 EUR and 36,000 EUR"]
+- [Development Effort Mapping](https://www.notion.so/viocom/Mapping-development-effort-to-EUR-2a14fa527de680bd927af0b88a5c449a?source=copy_link)
 
 ## Log of changes
 | Date | Author | Change |
