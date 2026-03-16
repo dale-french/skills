@@ -3,6 +3,7 @@
 ## Contents
 
 - [Story templates](#story-templates) — Feature, Bug, Chore/Tech Debt, Experiment Cleanup
+- [Epic template](#epic-template) — Standard epic description format
 - [Bug custom fields](#bug-custom-fields) — Severity, Priority, Bug Type, Source, Regression
 - [MCP tools cheat sheet](#mcp-tools-cheat-sheet) — Stories, Epics, Other
 - [Formatting rules](#formatting-rules) — Checkboxes, link formats
@@ -102,6 +103,42 @@ Description format:
 - [auto-populated from codebase grep]
 ```
 
+## Epic template
+
+All sections stay in the template — populated with real content or left as bracket placeholders. Epics are planning docs; visible placeholders remind creators what still needs filling in. This is the opposite of story convention, where empty sections are omitted.
+
+```
+[Notion Roadmap link — include only if user provides one]
+
+## Why and What
+[1-2 sentences on why this epic exists and what it delivers]
+
+## Approach
+[High-level technical or product approach — how will we get there?]
+
+## Acceptance criteria
+- [Testable assertions that define "done" for the epic]
+
+## Milestones
+- [ ] [Key checkpoints or deliverables, in rough order]
+
+## Schedule
+- Start: [planned start date or TBD]
+- Deadline: [target completion date or TBD]
+
+## Effort
+- [T-shirt size or point estimate]
+- [Development Effort Mapping](https://www.notion.so/getyourguide/Development-Effort-Mapping-EUR-14e1282a840580949e98cae65c26e2d4)
+
+## Dependencies
+- [Other epics, teams, or external blockers]
+
+## Log of changes
+| Date | Author | Change |
+|------|--------|--------|
+| [date] | [name] | Created |
+```
+
 ## Bug custom fields
 
 When creating bug stories, always set these five custom fields: **Severity**, **Priority**, **Bug Type**, **Source of Discovery**, **Regression**.
@@ -158,9 +195,11 @@ When creating bug stories, always set these five custom fields: **Severity**, **
 
 ### Epics
 
-- `epics-create` - name (required), description
-- `epics-get-by-id` - epic_id
-- `epics-search` - query
+- `epics-create` - name (required), description, owner, teamId
+- `epics-get-by-id` - epicPublicId, full (default: false)
+- `epics-search` - query, name, state (unstarted/started/done), owner, team, objective, due, hasDeadline, hasLabel, hasOwner, isOverdue, created, updated, completed
+- `epics-update` - epicPublicId + name, description, deadline, planned_start_date, labels, epic_state_id, team_id, owner_ids, objective_ids, archived
+- `epics-delete` - epicPublicId (cannot be undone)
 
 ### Other
 
