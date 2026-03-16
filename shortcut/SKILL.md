@@ -75,7 +75,7 @@ Flow:
 
 1. Map the user's request to the epic template sections in REFERENCE.md
 2. Apply the template — populate sections with info the user gave, leave bracket placeholders for sections they didn't mention (don't omit them)
-3. If user provides a Notion link, place it at the top of the description; otherwise omit that line
+3. If user provides a Notion roadmap link, place it at the top of the description. If not, ask for one — but it's not mandatory, so proceed without it if the user declines
 4. Preview: show epic name + full formatted description, ask for confirmation before creating
 5. Create via `epics-create` with name, description, and teamId (from CONFIG.md)
 6. If user provided schedule dates, follow up with `epics-update` to set deadline and/or planned_start_date
