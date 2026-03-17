@@ -14,7 +14,7 @@ Manage Shortcut stories, epics, and searches from natural language. Read [REFERE
 
 Before routing, check if Shortcut MCP tools are available (e.g. `stories-create`). If not, link the user to the setup guide and stop:
 
-https://github.com/useshortcut/mcp-server-shortcut/blob/main/docs/local-server.md#claude-code
+https://github.com/useshortcut/mcp-server-shortcut
 
 ## Quick start
 
