@@ -71,8 +71,9 @@ When the user wants to begin working on a story:
    - State change: {current state} → In Progress (skip if already In Progress)
    - Branch: `{branch_name}`
 4. **After user confirms**:
-   a. **Move to In Progress** — call `workflows-get-default` to find the "In Progress" state ID, then `stories-update` with `workflow_state_id`. Skip if already In Progress. (This also auto-assigns the current user.)
-   b. **Git checkout** — detect default branch, then:
+   a. **Move to In Progress** — call `workflows-get-default` to find the "In Progress" state ID, then `stories-update` with `workflow_state_id`. Skip if already In Progress.
+   b. **Assign current user** — call `stories-assign-current-user` to add yourself as owner.
+   c. **Git checkout** — detect default branch, then:
       - Already on the correct branch → no-op, inform user
       - Branch exists locally → `git checkout {branch}`
       - Branch exists on remote → `git fetch origin {branch} && git checkout {branch}`
