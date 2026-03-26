@@ -17,6 +17,7 @@ Claude Code automatically discovers `SKILL.md` files in `~/.claude/skills/` subd
 ### Planning & Design
 
 - _poke-holes_ — Interview you relentlessly about a plan or design, walking each branch of the decision tree until reaching shared understanding.
+- _write-a-prd_ — Create a Product Requirements Document through structured discovery, codebase exploration, and technical design. Outputs to markdown with optional export to connected integrations.
 
 ### Writing Skills
 

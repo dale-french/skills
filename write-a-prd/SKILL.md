@@ -38,11 +38,9 @@ Confirm the module design with the user. Ask which modules need tests.
 
 Synthesize everything into a PRD using the template below.
 
-Before writing, ask the user where they want the PRD delivered. Options:
+Write the PRD to a **markdown file** in the repo (suggest a sensible path like `docs/prd-<name>.md`).
 
-- **Markdown file** in the repo (suggest a sensible path)
-- **GitHub issue** via `gh`
-- **Other** — check for available MCP integrations (Notion, Linear, Shortcut, etc.) and offer any that are connected
+After writing, check for available MCP integrations (Notion, Linear, Shortcut, etc.) and offer to export to any that are connected.
 
 <prd-template>
 
