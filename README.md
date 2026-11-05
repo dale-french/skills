@@ -22,5 +22,5 @@ Claude Code automatically discovers `SKILL.md` files in `~/.claude/skills/` subd
 ### Writing & Quality
 
 - _no-slop_ — Strip AI writing patterns from prose. 10 rules targeting filler, AI vocabulary, em dashes, passive voice, false agency, binary contrasts, significance inflation, chatbot residue, and adverbs.
+- _leaving-pr-comments_ — Prefix agent-authored GitHub comments with a `> [!NOTE]` attribution callout naming the model and the user.
 - _write-a-skill_ — Create new skills with proper structure, progressive disclosure, and bundled resources.
-

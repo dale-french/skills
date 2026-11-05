@@ -1,6 +1,6 @@
 ---
 name: write-a-skill
-description: Creates new Claude Code skills with proper structure, progressive disclosure, and bundled resources. Use when user wants to create, write, build, or improve a skill. Also triggers when discussing skill architecture, frontmatter options, or description optimization.
+description: Use when creating or editing a skill, or discussing skill structure, frontmatter, or descriptions.
 user-invocable: true
 ---
 
@@ -31,7 +31,7 @@ First, read the official authoring guide for the complete spec (frontmatter fiel
 ```md
 ---
 name: skill-name
-description: Does X and Y for Z context. Use when user mentions A, B, or C, even if they don't explicitly ask for this skill.
+description: Use when A, B, or C.
 argument-hint: "[required-arg] [optional-arg]"
 ---
 
@@ -52,11 +52,21 @@ See [reference.md](reference.md) for detailed API docs.
 
 ## Writing Descriptions
 
-The description is the **only thing Claude sees** when deciding which skill to load. Claude tends to **undertrigger** skills — to not use them when they'd be useful. Combat this by making descriptions slightly "pushy": include adjacent keywords and contexts, not just exact matches.
+The description is written for the model, not for a human reader. It stays in context every turn, and it's the only thing Claude sees when deciding whether to invoke the skill. Its job is to say *when* to invoke the skill. Claude learns what the skill does from the body after it loads.
 
-**Good**: `Extracts text and tables from PDF files, fills forms, merges documents. Use when working with PDF files or when user mentions PDFs, forms, document extraction, or scanned documents.`
+- **Lead with the trigger.** Start with "Use when…" or "Use whenever…". Add a short what-it-is phrase only if the name doesn't already make that clear.
+- **One trigger per distinct case.** List each situation the skill handles. Don't pad with synonyms for the same case: they cost context on every turn and don't trigger more reliably.
+- **No "I can…" or "You can use this…" phrasing.** Address the invoking model directly with "Use when…".
 
-**Bad**: `Helps with documents.`
+**Good**: `Use whenever leaving comments on GitHub.`
+
+**Good**: `Writing documents for agents. Use when creating or editing skills, or modifying AGENTS.md or CLAUDE.md.`
+
+**Bad**: `Helps with documents.` (no trigger)
+
+**Bad**: `A handy tool you can use to write great PR comments!` (written for a human, no trigger)
+
+If the skill sets `disable-model-invocation: true`, the model never sees the description. Then write it for the human: a one-line summary, no trigger list.
 
 ## Skill Archetypes
 
@@ -70,8 +80,7 @@ Three patterns emerge in practice — choose the one that fits:
 
 After drafting, verify:
 
-- [ ] Description includes "Use when..." triggers and is slightly pushy
-- [ ] Description is in third person
+- [ ] Description is model-facing: leads with "Use when…" and covers each distinct trigger once, with no synonym padding
 - [ ] SKILL.md under 500 lines
 - [ ] No time-sensitive info
 - [ ] Consistent terminology throughout
